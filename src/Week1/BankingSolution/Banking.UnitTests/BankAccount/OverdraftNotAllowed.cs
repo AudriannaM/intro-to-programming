@@ -1,7 +1,5 @@
 ﻿using Banking.Domain;
 
-
-
 namespace Banking.UnitTests.BankAccount;
 public class OverdraftNotAllowed
 {
@@ -15,8 +13,7 @@ public class OverdraftNotAllowed
         var account = new Account();
         var openingBalance = account.GetBalance();
 
-        var amountToWithdraw = openingBalance + .01M;
-
+        var amountToWithdraw = TransactionValueTypes.Withdrawal.CreateFrom(openingBalance + .01M);
         // When
         try
         {
@@ -25,31 +22,25 @@ public class OverdraftNotAllowed
         catch (OverdraftException)
         {
 
-            //throw
+            // Ignore
         }
         finally
         {
             Assert.Equal(openingBalance, account.GetBalance());
         }
-
-        // Then
-        Assert.Equal(openingBalance, account.GetBalance());
     }
     [Fact]
     public void OverdraftThrowsAnException()
     {
-        //Given
+        // Given
         var account = new Account();
         var openingBalance = account.GetBalance();
 
-        var amountToWithdraw = openingBalance + .01M;
-        // When
+        var amountToWithdraw = TransactionValueTypes.Withdrawal.CreateFrom(openingBalance + .01M);
+        // When & then
         Assert.Throws<OverdraftException>(() =>
         {
             account.Withdraw(amountToWithdraw);
-
         });
-
-        //Then - did the exception get thrown
     }
 }

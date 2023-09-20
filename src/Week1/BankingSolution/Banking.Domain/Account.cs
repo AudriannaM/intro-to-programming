@@ -5,24 +5,20 @@ public class Account
     private decimal _balance = 5000M;
     public void Deposit(TransactionValueTypes.Deposit amountToDeposit)
     {
-        _balance += amountToDeposit;
-
+        _balance += amountToDeposit.Value;
     }
-    public TransactionValueTypes GetBalance()
+    public decimal GetBalance()
     {
-        //Slime it (Gary Bernhardt)
-        return _balance; //JFHIC - Just Hardcode It :)
-    }
 
-    //"Primitive Obsession" - 
-    public void Withdraw(TransactionValueTypes amountToWithdraw)
+        return _balance;
+    }
+    // "Primitive Obsession" -
+    public void Withdraw(TransactionValueTypes.Withdrawal amountToWithdraw)
     {
-        GuardHasSufficientFunds(amountToWithdraw);
+        GuardHasSufficientFunds(amountToWithdraw.Value);
 
-        _balance -= amountToWithdraw; //The important business
-
+        _balance -= amountToWithdraw.Value; // The important business!
     }
-
     private void GuardHasSufficientFunds(decimal amountToWithdraw)
     {
         if (amountToWithdraw > _balance)
